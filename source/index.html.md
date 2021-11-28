@@ -23,10 +23,10 @@ meta:
 
 # Introduction to BITQAP
 
-Welcome to the bitqap project! This is [blockchain](https://en.wikipedia.org/wiki/Blockchain) based software.
+Welcome to the BITQAP project! This is [blockchain](https://en.wikipedia.org/wiki/Blockchain) based software.
 Currently this project under development.
 
-Core block calculation app developed by [BASH](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) language, and network interface developed on [python3](https://www.python.org/). BITQAP progject will use Peer to Peer concept using [WebSocket](https://en.wikipedia.org/wiki/WebSocket ) protocol.
+Core block calculation app developed by [BASH](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) language, and network interface developed on [python3](https://www.python.org/). BITQAP network uses Peer to Peer concept using [WebSocket](https://en.wikipedia.org/wiki/WebSocket ) protocol.
 
 We have language bindings in Shell, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
