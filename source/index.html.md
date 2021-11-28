@@ -21,7 +21,7 @@ meta:
     content: Documentation for bitqap
 ---
 
-# Introduction
+# Introduction to BITQAP
 
 Welcome to the bitqap project! This is [**blockchain**](https://en.wikipedia.org/wiki/Blockchain) based software.
 Currently this project under development.
