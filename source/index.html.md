@@ -8,7 +8,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
 
 toc_footers:
   - <a href='#'>You need to generate Public-Private Key pair</a><br>
-  - <a href='https://github.com/aze2201/bashCoin'>Github</a>
+  - <a href='https://github.com/bitqap/bitqap'>Github</a>
 
 includes:
   - errors
@@ -30,10 +30,10 @@ We have language bindings in Shell, Python, and JavaScript! You can view code ex
 
 
 # Topology
-![Alt text](https://github.com/aze2201/bashCoin/blob/main/doc/img/TopologyBashCoin_v1.png?raw=true)
+![Alt text](https://github.com/bitqap/bitqap/blob/main/doc/img/TopologyBashCoin_v1.png?raw=true)
 
 # Mining steps
-![Alt text](https://github.com/aze2201/bashCoin/blob/main/doc/img/p2pCropped.gif?raw=true)
+![Alt text](https://github.com/bitqap/bitqap/blob/main/doc/img/p2pCropped.gif?raw=true)
 
 # Authentication
 
