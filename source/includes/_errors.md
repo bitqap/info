@@ -21,7 +21,9 @@ Error Code | Meaning
 
 You can add your own ERROR code to **bin/functMapFunc2Code.sh** file and call from functions.
 
+
 ```shell
+
 mapERRORFunction2Code () {
         funcName=$1
         case "$funcName" in 
@@ -63,3 +65,4 @@ mapERRORFunction2Code () {
 }
 
 ```
+
