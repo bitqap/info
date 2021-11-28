@@ -177,7 +177,7 @@ Mine will insert the top transactions from the queue with the 100 highest into t
 
 ### WS Request
 
-``webSocket = new WebSocket(url, protocols);
+``webSocket = new WebSocket(url, protocols);<br>
 webSocket.send("Here's some text that the server is urgently awaiting!");
 ``
 
@@ -227,7 +227,7 @@ This function will use UTXO method to calculate balance.
 
 ### WS Request
 
-``webSocket = new WebSocket(url, protocols);
+``webSocket = new WebSocket(url, protocols);<br>
 webSocket.send("Here's some text that the server is urgently awaiting!");
 ``
 
