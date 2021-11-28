@@ -7,7 +7,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
 
 toc_footers:
-  - <a href='https://github.com/bitqap/bitqap'>Github</a>
+  - <a href='https://github.com/bitqap/bitqap'>GITHUB</a>
 
 includes:
   - errors
