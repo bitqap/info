@@ -528,10 +528,8 @@ Remember — a happy kitten is an authenticated kitten!
 </tbody></table>
 <h1 id='errors'>Errors</h1>
 <aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
+Error page still not updated. 
 </aside>
-
-<p>The Kittn API uses the following error codes:</p>
 
 <table><thead>
 <tr>
@@ -585,6 +583,59 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
 </tr>
 </tbody></table>
 
+<p>You can add your own ERROR code to <strong>bin/functMapFunc2Code.sh</strong> file and call from functions.</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>mapERRORFunction2Code <span class="o">()</span> <span class="o">{</span>
+        <span class="nv">funcName</span><span class="o">=</span><span class="nv">$1</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nv">$2</span>
+        <span class="k">case</span> <span class="s2">"</span><span class="nv">$funcName</span><span class="s2">"</span> <span class="k">in 
+                </span>mine<span class="p">)</span>
+                                <span class="nv">code</span><span class="o">=</span>500
+                                <span class="nv">name</span><span class="o">=</span>mine
+                                <span class="p">;;</span>
+                mineGenesis<span class="p">)</span>
+                                <span class="nv">code</span><span class="o">=</span>501
+                                <span class="nv">name</span><span class="o">=</span>mineGenesis
+                                <span class="p">;;</span>
+                checkAccountBal<span class="p">)</span>
+                                <span class="nv">code</span><span class="o">=</span>510
+                                <span class="nv">name</span><span class="o">=</span>checkAccountBal
+                                <span class="p">;;</span>
+                getTransactionMessageForSign<span class="p">)</span>
+                                <span class="nv">code</span><span class="o">=</span>511
+                                <span class="nv">name</span><span class="o">=</span>getTransactionMessageForSign
+                                <span class="p">;;</span>
+                pushSignedMessageToPending<span class="p">)</span>
+                                <span class="nv">code</span><span class="o">=</span>512
+                                <span class="nv">name</span><span class="o">=</span>pushSignedMessageToPending
+                                <span class="p">;;</span>
+                AddBlockFromNetwork<span class="p">)</span>
+                                <span class="nv">code</span><span class="o">=</span>520
+                                <span class="nv">name</span><span class="o">=</span>AddBlockFromNetwork
+                                <span class="p">;;</span>
+                listNewBlock<span class="p">)</span>
+                                <span class="nv">code</span><span class="o">=</span>521
+                                <span class="nv">name</span><span class="o">=</span>listNewBlock
+                                <span class="p">;;</span>
+                provideBlocks<span class="p">)</span>
+                                <span class="nv">code</span><span class="o">=</span>522
+                                <span class="nv">name</span><span class="o">=</span>provideBlocks
+                                <span class="p">;;</span>
+                validateNetworkBlockHash<span class="p">)</span>
+                                <span class="nv">code</span><span class="o">=</span>523
+                                <span class="nv">name</span><span class="o">=</span>validateNetworkBlockHash
+                                <span class="p">;;</span>
+                updateNetworkInfo<span class="p">)</span>
+                                <span class="nv">code</span><span class="o">=</span>401
+                                <span class="nv">name</span><span class="o">=</span>updateNetworkInfo
+                                <span class="p">;;</span>
+                <span class="k">*</span><span class="p">)</span>
+                                <span class="nv">code</span><span class="o">=</span>000
+                                <span class="p">;;</span>
+                <span class="k">esac</span>
+        <span class="nb">echo</span> <span class="nv">$code</span>
+<span class="o">}</span>
+
+</code></pre></div>
       </div>
       <div class="dark-box">
           <div class="lang-selector">
