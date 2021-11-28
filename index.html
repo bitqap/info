@@ -366,7 +366,7 @@ git clone https://github.com/bitqap/bitqap.git
 python3 socketGateway3.py
 
 
-<span class="c"># start local miner app (socket)</span>
+<span class="c"># start local miner app (socket) TEST MODE</span>
 <span class="nb">exec </span>3&lt;<span class="o">&gt;</span> communicate_pipe
 
 <span class="nb">cat </span>communicate_pipe - | python wsdump.py  <span class="nt">-r</span> <span class="nt">--text</span> <span class="s1">'{"command":"nothing","appType":"nothing","destinationSocketBashCoin":"yes","messageType":"direct"}'</span> ws://127.0.0.1:8001 | <span class="k">while </span><span class="nb">read </span>line<span class="p">;</span> <span class="k">do   
