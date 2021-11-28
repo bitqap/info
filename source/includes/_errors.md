@@ -24,6 +24,8 @@ You can add your own ERROR code to **bin/functMapFunc2Code.sh** file and call fr
 
 ```shell
 
+> cat bin/functMapFunc2Code.sh
+
 mapERRORFunction2Code () {
         funcName=$1
         case "$funcName" in 
