@@ -29,6 +29,31 @@ We have language bindings in Shell, Python, and JavaScript! You can view code ex
 
 
 # Topology
+
+```shell
+# download git project
+git clone https://github.com/bitqap/bitqap.git
+
+# start server
+cd bitqap/bin
+python3 socketGateway3.py
+
+
+# start local miner app (socket)
+exec 3<> communicate_pipe
+
+cat communicate_pipe - | python wsdump.py  -r --text '{"command":"nothing","appType":"nothing","destinationSocketBashCoin":"yes","messageType":"direct"}' ws://127.0.0.1:8001 | while read line; do   
+  res=$(echo ${line} | jq .);  
+  if [ $? -eq 0 ]; then     
+    line=$(echo -e ${line});
+    echo "$line" >> ../log/line.log
+    cmd="./bashCoin.sh  '${line}' > communicate_pipe"; 
+    echo $cmd >> ../log/command.log   
+    eval $cmd;
+  fi; 
+done
+```
+
 ![Alt text](https://github.com/bitqap/bitqap/blob/main/doc/img/TopologyBashCoin_v1.png?raw=true)
 
 # Mining steps
@@ -213,5 +238,3 @@ ACCTNUM| sha256 hash of Pub key | mandatory
 
 
 ## send coin
-
-
