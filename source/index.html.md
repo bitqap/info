@@ -7,7 +7,6 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
 
 toc_footers:
-  - <a href='#'>You need to generate Public-Private Key pair</a><br>
   - <a href='https://github.com/bitqap/bitqap'>Github</a>
 
 includes:
