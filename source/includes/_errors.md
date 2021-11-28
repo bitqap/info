@@ -24,52 +24,41 @@ You can add your own ERROR code to **bin/functMapFunc2Code.sh** file and call fr
 ```shell
 mapERRORFunction2Code () {
         funcName=$1
-        type=$2
         case "$funcName" in 
                 mine)
                                 code=500
-                                name=mine
                                 ;;
                 mineGenesis)
                                 code=501
-                                name=mineGenesis
                                 ;;
                 checkAccountBal)
                                 code=510
-                                name=checkAccountBal
                                 ;;
                 getTransactionMessageForSign)
                                 code=511
-                                name=getTransactionMessageForSign
                                 ;;
                 pushSignedMessageToPending)
                                 code=512
-                                name=pushSignedMessageToPending
                                 ;;
                 AddBlockFromNetwork)
                                 code=520
-                                name=AddBlockFromNetwork
                                 ;;
                 listNewBlock)
                                 code=521
-                                name=listNewBlock
                                 ;;
                 provideBlocks)
                                 code=522
-                                name=provideBlocks
                                 ;;
                 validateNetworkBlockHash)
                                 code=523
-                                name=validateNetworkBlockHash
                                 ;;
                 updateNetworkInfo)
                                 code=401
-                                name=updateNetworkInfo
                                 ;;
                 *)
                                 code=000
                                 ;;
-                esac
+        esac
         echo $code
 }
 
