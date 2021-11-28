@@ -97,7 +97,7 @@ This part is still under development, because of python ssl.py module doesn't su
 You must generate private/public key on your device and secure it.
 </aside>
 
-# bitqap messages
+# BITQAP messages
 
 ## Account information
 
