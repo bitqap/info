@@ -1,15 +1,14 @@
 ---
-title: API Reference
+title: BITQAP
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
   - python
   - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+  - <a href='#'>You need to generate Public-Private Key pair</a><br>
+  - <a href='https://github.com/aze2201/bashCoin'>Github</a>
 
 includes:
   - errors
@@ -20,226 +19,200 @@ code_clipboard: true
 
 meta:
   - name: description
-    content: Documentation for the Kittn API
+    content: Documentation for bitqap
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the bitqap project! You can use our bitqap interfaces to access endpoints.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have language bindings in Shell, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+
+# Topology
+![Alt text](https://github.com/aze2201/bashCoin/blob/main/doc/img/TopologyBashCoin_v1.png?raw=true)
+
+# Mining steps
+![Alt text](https://github.com/aze2201/bashCoin/blob/main/doc/img/p2pCropped.gif?raw=true)
 
 # Authentication
 
-> To authorize, use this code:
+> To generate Private/Public Key pair use this shell code:
 
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+```shell
+# csr creted for mining node to accept encrypyed connections only over HTTPS
+openssl genrsa -aes128 -out username_private.pem 1024
+openssl genrsa  -out user.key 2048
+openssl req -key user.key -new -out user.csr
+openssl rsa -in user.key  -pubout > user.pub
 ```
 
 ```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
+not defined yet
 ```
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
+not defined yet
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+> Private/Public key required to do any action
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+bitqap uses self signed Public/Private key-pair to accept HTTPS calls only from another nodes or Wallets.
+[developer portal](https://github.com/aze2201/bashCoin.
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+This part is still under development, because of python ssl.py module doesn't support enctyped key (autofill passphrase)
 
-`Authorization: meowmeowmeow`
+`Authorization: private-key`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must generate private/public key on your device and secure it.
 </aside>
 
-# Kittens
+# bitqap messages
 
-## Get All Kittens
+## Account information
 
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+```shell
+cat cert/example.com.pub| sha256sum  | awk '{print $1}'
 ```
 
 ```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
+not defined yet
 ```
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+not defined yet
 ```
 
-> The above command returns JSON structured like this:
+> The above command returns TXT structured like this:
 
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+```shell
+497cea9f5af23c76922d7bfc6237d8e225248887defcc333f36ba853a1266848
 ```
 
-This endpoint retrieves all kittens.
+Your account is SHA256 of public key. In future other accounts will use this info to coins. 
+You can provide this account as URL or QR code 
 
-### HTTP Request
+### no WS Request
 
-`GET http://example.com/api/kittens`
 
-### Query Parameters
+### message parameters
 
-Parameter | Default | Description
+key | value | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+N/A | N/A | N/A
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Remember — keep your private key secret
 </aside>
 
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+## start mining
 
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
+cd bin
+./bashCoin.sh '{"command":"mine","appType":"miner","messageType":"direct"}'
 ```
 
-```javascript
-const kittn = require('kittn');
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+```python
+python wsdump.py ws://127.0.0.1:8001
+> {"command":"mine","appType":"miner","messageType":"direct"}
+```
+
+
+```javascript
+not defined yet
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "command":"notification",
+  "commandCode":"100",
+  "appType":"miner",
+  "messageType":"broadcast",
+  "status":"0", 
+  "timeUTC":"20211128102607",
+  "difficulty":"1",
+  "MINEDBLOCK":"163.blk.solved",
+  "NEXTBLOCK":"164.blk"
 }
 ```
 
-This endpoint retrieves a specific kitten.
+Mine will insert the top transactions from the queue with the 100 highest into the next block and start calculating.
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
 
-### HTTP Request
+<aside class="warning">mine command can be sent only from localhost.</aside>
 
-`GET http://example.com/kittens/<ID>`
+### WS Request
 
-### URL Parameters
+``webSocket = new WebSocket(url, protocols);
+webSocket.send("Here's some text that the server is urgently awaiting!");
+``
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+### message parameters
 
-## Delete a Specific Kitten
+key | value | Description
+--------- | ------- | -----------
+command | mine |  mandatory
+appType | miner/wallet | optional
+messageType| direct/broadcast | mandatory
 
-```ruby
-require 'kittn'
+## check balance
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
+
+```shell
+cd bin
+./bashCoin.sh '{"command":"checkbalance","ACCTNUM":"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034","messageType":"direct"}'
 ```
 
 ```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
+python wsdump.py ws://127.0.0.1:8001
+> {"command":"checkbalance","ACCTNUM":"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034","messageType":"direct"}
 ```
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+not defined yet
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
+  {
+    "command": "checkbalance", 
+    "commandCode": "200", 
+    "messageType": "direct", 
+    "status": "0", 
+    "destinationSocket": "4", 
+    "result": 
+      {
+        "publicKeyHASH256": "50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034", 
+        "balance": "46"
+      }
+    }
 ```
 
-This endpoint deletes a specific kitten.
+This function will use UTXO method to calculate balance.
 
-### HTTP Request
+### WS Request
 
-`DELETE http://example.com/kittens/<ID>`
+``webSocket = new WebSocket(url, protocols);
+webSocket.send("Here's some text that the server is urgently awaiting!");
+``
 
-### URL Parameters
+### message parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+key | value | Description
+--------- | ------- | -----------
+command | checkbalance |  mandatory
+messageType| direct/broadcast | mandatory
+ACCTNUM| sha256 hash of Pub key | mandatory
+
+
+
+## send coin
+
 
