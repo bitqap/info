@@ -358,7 +358,28 @@
 <p>Welcome to the bitqap project! You can use our bitqap interfaces to access endpoints.</p>
 
 <p>We have language bindings in Shell, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
-<h1 id='topology'>Topology</h1>
+<h1 id='topology'>Topology</h1><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># download git project</span>
+git clone https://github.com/bitqap/bitqap.git
+
+<span class="c"># start server</span>
+<span class="nb">cd </span>bitqap/bin
+python3 socketGateway3.py
+
+
+<span class="c"># start local miner app (socket)</span>
+<span class="nb">exec </span>3&lt;<span class="o">&gt;</span> communicate_pipe
+
+<span class="nb">cat </span>communicate_pipe - | python wsdump.py  <span class="nt">-r</span> <span class="nt">--text</span> <span class="s1">'{"command":"nothing","appType":"nothing","destinationSocketBashCoin":"yes","messageType":"direct"}'</span> ws://127.0.0.1:8001 | <span class="k">while </span><span class="nb">read </span>line<span class="p">;</span> <span class="k">do   
+  </span><span class="nv">res</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">line</span><span class="k">}</span> | jq .<span class="si">)</span><span class="p">;</span>  
+  <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span><span class="p">;</span> <span class="k">then     
+    </span><span class="nv">line</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="nt">-e</span> <span class="k">${</span><span class="nv">line</span><span class="k">}</span><span class="si">)</span><span class="p">;</span>
+    <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$line</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> ../log/line.log
+    <span class="nv">cmd</span><span class="o">=</span><span class="s2">"./bashCoin.sh  '</span><span class="k">${</span><span class="nv">line</span><span class="k">}</span><span class="s2">' &gt; communicate_pipe"</span><span class="p">;</span> 
+    <span class="nb">echo</span> <span class="nv">$cmd</span> <span class="o">&gt;&gt;</span> ../log/command.log   
+    <span class="nb">eval</span> <span class="nv">$cmd</span><span class="p">;</span>
+  <span class="k">fi</span><span class="p">;</span> 
+<span class="k">done</span>
+</code></pre></div>
 <p><img src="https://github.com/bitqap/bitqap/blob/main/doc/img/TopologyBashCoin_v1.png?raw=true" alt="Alt text" /></p>
 <h1 id='mining-steps'>Mining steps</h1>
 <p><img src="https://github.com/bitqap/bitqap/blob/main/doc/img/p2pCropped.gif?raw=true" alt="Alt text" /></p>
