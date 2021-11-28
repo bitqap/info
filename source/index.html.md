@@ -42,6 +42,8 @@ python3 socketGateway3.py
 
 
 # start local miner app (socket) TEST MODE
+
+mkfifo communicate_pipe
 exec 3<> communicate_pipe
 
 cat communicate_pipe - | python wsdump.py  -r --text '{"command":"nothing","appType":"nothing","destinationSocketBashCoin":"yes","messageType":"direct"}' ws://127.0.0.1:8001 | while read line; do   
