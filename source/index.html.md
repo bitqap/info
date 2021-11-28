@@ -18,7 +18,7 @@ code_clipboard: true
 
 meta:
   - name: description
-    content: Documentation for bitqap
+    content:  BITQAP crypto
 ---
 
 # Introduction to BITQAP
