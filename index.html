@@ -377,6 +377,11 @@ python3 socketGateway3.py
 startExternalApp.sh
 </code></pre></div>
 <p><img src="https://github.com/bitqap/bitqap/blob/main/doc/img/TopologyBashCoin_v1.png?raw=true" alt="Alt text" /></p>
+
+<p>BITQAP uses BITQAP protocol suite on top of the WebSocket and  <a href="https://en.wikipedia.org/wiki/Named_pipe">Linux Namad Pipe</a> technology. <strong>bashCoin.sh</strong> is core script which is manages application (mine, validation, coin send, etc.)
+<strong>bashCoin.sh</strong> binded to <code>NAMED_PIPE_BSH</code> (variable) pipe file over <code>./startLocalApp.sh</code> script.
+Copy of <code>./startLocalApp.sh</code> script output writing to <code>NAMED_PIPE_EXT</code> (variable) pipe file also to broadcast external servers and <code>./startExternalApp.sh</code> script reads this message.
+<code>NAMED_PIPE_BSH</code> and <code>NAMED_PIPE_EXT</code> file descriptor is 3</p>
 <h1 id='mining-steps'>Mining steps</h1>
 <p><img src="https://github.com/bitqap/bitqap/blob/main/doc/img/p2pCropped.gif?raw=true" alt="Alt text" /></p>
 <h1 id='authentication'>Authentication</h1>
