@@ -4,27 +4,6 @@
 Error page still not updated. 
 </aside>
 
-
-Error Code | Meaning
----------- | -------
-mine|000
-mineGenesis|000
-checkAccountBal|000
-getTransactionMessageForSign|000
-AddTransactionFromNetwork|000
-pushSignedMessageToPending|000
-askBlockContent|000
-provideTXMessage|000
-AddNewBlockFromNode|000
-listNewBlock|000
-provideBlockContent|000
-validateNetworkBlockHash|000
-askBlockContent|000
-updateNetworkInfo|000
-
-You can add your own ERROR code to **bin/functMapFunc2Code.sh** file and call from functions.
-
-
 ```shell
 
 > cat bin/functMapFunc2Code.sh
@@ -71,3 +50,22 @@ mapERRORFunction2Code () {
 
 ```
 
+
+Error Code | Meaning
+---------- | -------
+mine|1500
+mineGenesis|1501
+checkAccountBal|1510
+getTransactionMessageForSign|1511
+AddTransactionFromNetwork|1512
+pushSignedMessageToPending|1513
+askBlockContent|1514
+provideTXMessage|1515
+AddNewBlockFromNode|1520
+listNewBlock|1521
+provideBlockContent|1522
+validateNetworkBlockHash|1523
+askBlockContent|1514
+updateNetworkInfo|1401fo|000
+
+You can add your own ERROR code to **bin/functMapFunc2Code.sh** file and call from functions.
