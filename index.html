@@ -370,21 +370,11 @@ git clone https://github.com/bitqap/bitqap.git
 python3 socketGateway3.py
 
 
-<span class="c"># start local miner app (socket) TEST MODE</span>
+<span class="c"># start local miner app (socket) TEST MODE.</span>
+./startLocalApp.sh
 
-<span class="nb">mkfifo </span>communicate_pipe
-<span class="nb">exec </span>3&lt;<span class="o">&gt;</span> communicate_pipe
-
-<span class="nb">cat </span>communicate_pipe - | python wsdump.py  <span class="nt">-r</span> <span class="nt">--text</span> <span class="s1">'{"command":"nothing","appType":"nothing","destinationSocketBashCoin":"yes","messageType":"direct"}'</span> ws://127.0.0.1:8001 | <span class="k">while </span><span class="nb">read </span>line<span class="p">;</span> <span class="k">do   
-  </span><span class="nv">res</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">line</span><span class="k">}</span> | jq .<span class="si">)</span><span class="p">;</span>  
-  <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span><span class="p">;</span> <span class="k">then     
-    </span><span class="nv">line</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="nt">-e</span> <span class="k">${</span><span class="nv">line</span><span class="k">}</span><span class="si">)</span><span class="p">;</span>
-    <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$line</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> ../log/line.log
-    <span class="nv">cmd</span><span class="o">=</span><span class="s2">"./bashCoin.sh  '</span><span class="k">${</span><span class="nv">line</span><span class="k">}</span><span class="s2">' &gt; communicate_pipe"</span><span class="p">;</span> 
-    <span class="nb">echo</span> <span class="nv">$cmd</span> <span class="o">&gt;&gt;</span> ../log/command.log   
-    <span class="nb">eval</span> <span class="nv">$cmd</span><span class="p">;</span>
-  <span class="k">fi</span><span class="p">;</span> 
-<span class="k">done</span>
+<span class="c"># another session</span>
+startExternalApp.sh
 </code></pre></div>
 <p><img src="https://github.com/bitqap/bitqap/blob/main/doc/img/TopologyBashCoin_v1.png?raw=true" alt="Alt text" /></p>
 <h1 id='mining-steps'>Mining steps</h1>
@@ -545,7 +535,89 @@ webSocket.send(&lt;JSON&gt;&quot;);
 <td>mandatory</td>
 </tr>
 </tbody></table>
-<h2 id='send-coin'>send coin</h2><h1 id='errors'>Errors</h1>
+<h2 id='send-coin'>send coin</h2><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c">#full message</span>
+
+<span class="nv">fullMessage</span><span class="o">=</span><span class="s1">'{"command": "getTransactionMessageForSign", "status": 0, "destinationSocket": "2", "result": {"forReciverData": "50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:b1bd54c941aef5e0096c46fd21d971b3a3cf5325226afb89c0a9d6845a491af6:5:3:202111121313", "forSenderData": "50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:38:0:202111121313"}}'</span>
+
+<span class="c"># key pair</span>
+<span class="nv">privKey</span><span class="o">=</span><span class="s2">"/root/bashCo1/cert/example.com.key"</span>
+<span class="nv">publKey</span><span class="o">=</span><span class="s2">"/root/bashCo1/cert/example.com.pub"</span>
+
+<span class="c"># orignal raw message need to be hashed for TxID</span>
+<span class="nv">rawMsgRecv</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="nv">$fullMessage</span> | jq <span class="nt">-r</span> <span class="s1">'.result'</span> | jq <span class="nt">-r</span> <span class="s1">'.forReciverData'</span><span class="si">)</span>
+<span class="nv">rawMsgSend</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="nv">$fullMessage</span> | jq <span class="nt">-r</span> <span class="s1">'.result'</span> | jq <span class="nt">-r</span> <span class="s1">'.forSenderData'</span><span class="si">)</span>
+
+<span class="c"># hash sha256</span>
+<span class="nv">txIDRecv</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">rawMsgRecv</span><span class="k">}</span>| <span class="nb">sha256sum</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="si">)</span>
+<span class="nv">txIDSend</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">rawMsgSend</span><span class="k">}</span>| <span class="nb">sha256sum</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="si">)</span>
+
+<span class="c"># raw message need to be signed (txID included)</span>
+<span class="nv">OrigMSG_Recv</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"TX</span><span class="nv">$txIDRecv</span><span class="s2">:</span><span class="nv">$rawMsgRecv</span><span class="s2">"</span><span class="si">)</span>
+<span class="nv">OrigMSG_Send</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"TX</span><span class="nv">$txIDSend</span><span class="s2">:</span><span class="nv">$rawMsgRecv</span><span class="s2">"</span><span class="si">)</span>
+
+<span class="c"># encoded Public key as base64 </span>
+<span class="nv">pubKeyBase64</span><span class="o">=</span><span class="si">$(</span><span class="nb">cat</span> <span class="k">${</span><span class="nv">publKey</span><span class="k">}</span>| <span class="nb">base64</span> | <span class="nb">tr</span> <span class="s1">'\n'</span> <span class="s1">' '</span> | <span class="nb">sed</span> <span class="s1">'s/ //g'</span><span class="si">)</span>
+
+<span class="c"># signatures of both messages</span>
+<span class="nv">signedMsgRecv</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">OrigMSG_Recv</span><span class="k">}</span>| openssl dgst <span class="nt">-sign</span> <span class="k">${</span><span class="nv">privKey</span><span class="k">}</span> <span class="nt">-keyform</span> PEM <span class="nt">-sha256</span> | <span class="nb">base64</span> | <span class="nb">tr</span> <span class="s1">'\n'</span> <span class="s1">' '</span> | <span class="nb">sed</span> <span class="s1">'s/ //g'</span><span class="si">)</span>
+<span class="nv">signedMsgSend</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">OrigMSG_Send</span><span class="k">}</span>| openssl dgst <span class="nt">-sign</span> <span class="k">${</span><span class="nv">privKey</span><span class="k">}</span> <span class="nt">-keyform</span> PEM <span class="nt">-sha256</span> | <span class="nb">base64</span> | <span class="nb">tr</span> <span class="s1">'\n'</span> <span class="s1">' '</span> | <span class="nb">sed</span> <span class="s1">'s/ //g'</span><span class="si">)</span>
+
+<span class="c"># construct of messages</span>
+<span class="nv">recv</span><span class="o">=</span><span class="s2">"</span><span class="nv">$OrigMSG_Recv</span><span class="s2">:</span><span class="nv">$pubKeyBase64</span><span class="s2">:</span><span class="nv">$signedMsgRecv</span><span class="s2">"</span>
+<span class="nv">send</span><span class="o">=</span><span class="s2">"</span><span class="nv">$OrigMSG_Send</span><span class="s2">:</span><span class="nv">$pubKeyBase64</span><span class="s2">:</span><span class="nv">$signedMsgSend</span><span class="s2">"</span>
+
+<span class="c"># build JSON</span>
+<span class="nv">result</span><span class="o">=[]</span>
+<span class="c"># add reciever msg</span>
+<span class="nv">result</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">result</span><span class="k">}</span>| jq <span class="nt">--arg</span> dt <span class="nv">$recv</span> <span class="s1">'. + [ $dt ]'</span><span class="si">)</span>
+<span class="c"># add sender msg</span>
+<span class="nv">result</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">result</span><span class="k">}</span>| jq <span class="nt">--arg</span> dt <span class="nv">$send</span> <span class="s1">'. + [ $dt ]'</span><span class="si">)</span>
+
+<span class="c"># Full messages</span>
+<span class="nv">returnMesssage</span><span class="o">=</span><span class="s2">"{</span><span class="se">\"</span><span class="s2">command</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">pushSignedMessageToPending</span><span class="se">\"</span><span class="s2">, </span><span class="se">\"</span><span class="s2">messageType</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">direct</span><span class="se">\"</span><span class="s2">, </span><span class="se">\"</span><span class="s2">result</span><span class="se">\"</span><span class="s2">:</span><span class="nv">$result</span><span class="s2">}"</span>
+
+<span class="nb">echo</span> <span class="nv">$returnMesssage</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">python</span> <span class="n">wsdump</span><span class="p">.</span><span class="n">py</span> <span class="n">ws</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8001</span>
+<span class="o">&gt;</span> <span class="p">{</span><span class="s">"command"</span><span class="p">:</span> <span class="s">"getTransactionMessageForSign"</span><span class="p">,</span> <span class="s">"status"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"destinationSocket"</span><span class="p">:</span> <span class="s">"2"</span><span class="p">,</span> <span class="s">"result"</span><span class="p">:</span> <span class="p">{</span><span class="s">"forReciverData"</span><span class="p">:</span> <span class="s">"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:b1bd54c941aef5e0096c46fd21d971b3a3cf5325226afb89c0a9d6845a491af6:5:3:202111121313"</span><span class="p">,</span> <span class="s">"forSenderData"</span><span class="p">:</span> <span class="s">"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:38:0:202111121313"</span><span class="p">}}</span>
+
+<span class="c1"># used shell section to build message. Unfortunatelly pytyon code is not ready to build signed message
+</span><span class="o">&gt;</span> <span class="p">{</span><span class="s">"command"</span><span class="p">:</span><span class="s">"pushSignedMessageToPending"</span><span class="p">,</span> <span class="s">"messageType"</span><span class="p">:</span> <span class="s">"direct"</span><span class="p">,</span> <span class="s">"result"</span><span class="p">:[</span><span class="s">"message1..."</span><span class="p">,</span><span class="s">"message2..."</span><span class="p">]}</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">not</span> <span class="nx">defined</span> <span class="nx">yet</span>
+</code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this for <code>getTransactionMessageForSign</code> command:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"getTransactionMessageForSign"</span><span class="p">,</span><span class="w"> 
+  </span><span class="nl">"messageType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"direct"</span><span class="p">,</span><span class="w"> 
+  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> 
+  </span><span class="nl">"destinationSocket"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> 
+  </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> 
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"forReciverData"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:b1bd54c941aef5e0096c46fd21d971b3a3cf5325226afb89c0a9d6845a491af6:5:3:202111121313"</span><span class="p">,</span><span class="w"> 
+      </span><span class="nl">"forSenderData"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:38:0:202111121313"</span><span class="w">
+    </span><span class="p">},</span><span class="w"> 
+    </span><span class="nl">"socketID"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this for <code>pushSignedMessageToPending</code> command:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="err">#</span><span class="w"> </span><span class="err">output</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">shell</span><span class="w"> </span><span class="err">script</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"command"</span><span class="p">:</span><span class="s2">"pushSignedMessageToPending"</span><span class="p">,</span><span class="w"> 
+  </span><span class="nl">"messageType"</span><span class="p">:</span><span class="w"> 
+  </span><span class="s2">"direct"</span><span class="p">,</span><span class="w"> 
+  </span><span class="nl">"result"</span><span class="p">:</span><span class="w">
+    </span><span class="p">[</span><span class="w"> </span><span class="s2">"&lt;signedMessage1...&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;signedMessage1...&gt;"</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Send coint consist of 2 steps. 
+<code>getTransactionMessageForSign</code> and <code>pushSignedMessageToPending</code> commands.</p>
+
+<p><code>getTransactionMessageForSign</code> is used for get message from Node (with balance info).
+<code>pushSignedMessageToPending</code> is used for to sign message with Wallet privsate key and push to Node (pending transactions)</p>
+<h1 id='errors'>Errors</h1>
 <aside class="notice">
 Error page still not updated. 
 </aside>
