@@ -684,72 +684,6 @@ webSocket.send(&lt;JSON&gt;&quot;);
 <aside class="notice">
 Error page still not updated. 
 </aside>
-
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>mine</td>
-<td>000</td>
-</tr>
-<tr>
-<td>mineGenesis</td>
-<td>000</td>
-</tr>
-<tr>
-<td>checkAccountBal</td>
-<td>000</td>
-</tr>
-<tr>
-<td>getTransactionMessageForSign</td>
-<td>000</td>
-</tr>
-<tr>
-<td>AddTransactionFromNetwork</td>
-<td>000</td>
-</tr>
-<tr>
-<td>pushSignedMessageToPending</td>
-<td>000</td>
-</tr>
-<tr>
-<td>askBlockContent</td>
-<td>000</td>
-</tr>
-<tr>
-<td>provideTXMessage</td>
-<td>000</td>
-</tr>
-<tr>
-<td>AddNewBlockFromNode</td>
-<td>000</td>
-</tr>
-<tr>
-<td>listNewBlock</td>
-<td>000</td>
-</tr>
-<tr>
-<td>provideBlockContent</td>
-<td>000</td>
-</tr>
-<tr>
-<td>validateNetworkBlockHash</td>
-<td>000</td>
-</tr>
-<tr>
-<td>askBlockContent</td>
-<td>000</td>
-</tr>
-<tr>
-<td>updateNetworkInfo</td>
-<td>000</td>
-</tr>
-</tbody></table>
-
-<p>You can add your own ERROR code to <strong>bin/functMapFunc2Code.sh</strong> file and call from functions.</p>
 <div class="highlight"><pre class="highlight shell tab-shell"><code>
 <span class="o">&gt;</span> <span class="nb">cat </span>bin/functMapFunc2Code.sh
 
@@ -794,6 +728,72 @@ mapERRORFunction2Code <span class="o">()</span> <span class="o">{</span>
 <span class="o">}</span>
 
 </code></pre></div>
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mine</td>
+<td>1500</td>
+</tr>
+<tr>
+<td>mineGenesis</td>
+<td>1501</td>
+</tr>
+<tr>
+<td>checkAccountBal</td>
+<td>1510</td>
+</tr>
+<tr>
+<td>getTransactionMessageForSign</td>
+<td>1511</td>
+</tr>
+<tr>
+<td>AddTransactionFromNetwork</td>
+<td>1512</td>
+</tr>
+<tr>
+<td>pushSignedMessageToPending</td>
+<td>1513</td>
+</tr>
+<tr>
+<td>askBlockContent</td>
+<td>1514</td>
+</tr>
+<tr>
+<td>provideTXMessage</td>
+<td>1515</td>
+</tr>
+<tr>
+<td>AddNewBlockFromNode</td>
+<td>1520</td>
+</tr>
+<tr>
+<td>listNewBlock</td>
+<td>1521</td>
+</tr>
+<tr>
+<td>provideBlockContent</td>
+<td>1522</td>
+</tr>
+<tr>
+<td>validateNetworkBlockHash</td>
+<td>1523</td>
+</tr>
+<tr>
+<td>askBlockContent</td>
+<td>1514</td>
+</tr>
+<tr>
+<td>updateNetworkInfo</td>
+<td>1401fo</td>
+</tr>
+</tbody></table>
+
+<p>You can add your own ERROR code to <strong>bin/functMapFunc2Code.sh</strong> file and call from functions.</p>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
