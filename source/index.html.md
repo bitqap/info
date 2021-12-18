@@ -50,6 +50,11 @@ startExternalApp.sh
 
 ![Alt text](https://github.com/bitqap/bitqap/blob/main/doc/img/TopologyBashCoin_v1.png?raw=true)
 
+BITQAP uses BITQAP protocol suite on top of the WebSocket and  [Linux Namad Pipe](https://en.wikipedia.org/wiki/Named_pipe) technology. **bashCoin.sh** is core script which is manages application (mine, validation, coin send, etc.)
+**bashCoin.sh** binded to `NAMED_PIPE_BSH` (variable) pipe file over `./startLocalApp.sh` script.
+Copy of `./startLocalApp.sh` script output writing to `NAMED_PIPE_EXT` (variable) pipe file also to broadcast external servers and `./startExternalApp.sh` script reads this message.
+`NAMED_PIPE_BSH` and `NAMED_PIPE_EXT` file descriptor is 3
+
 # Mining steps
 ![Alt text](https://github.com/bitqap/bitqap/blob/main/doc/img/p2pCropped.gif?raw=true)
 
