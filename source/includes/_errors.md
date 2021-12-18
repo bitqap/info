@@ -1,7 +1,7 @@
 # Errors
 
 <aside class="notice">
-Error page still not updated. 
+Error page still updating. 
 </aside>
 
 ```shell
