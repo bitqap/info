@@ -278,7 +278,7 @@ echo $returnMesssage
 
 ```python
 python wsdump.py ws://127.0.0.1:8001
-> {"command": "getTransactionMessageForSign", "status": 0, "destinationSocket": "2", "result": {"forReciverData": "50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:b1bd54c941aef5e0096c46fd21d971b3a3cf5325226afb89c0a9d6845a491af6:5:3:202111121313", "forSenderData": "50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:38:0:202111121313"}}
+>  { "command":"getTransactionMessageForSign","messageType":"direct","result":{"forReciverData":"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:b1bd54c941aef5e0096c46fd21d971b3a3cf5325226afb89c0a9d6845a491af6:5:3:202111121313","forSenderData":"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:38:0:202111121313"}}
 
 # used shell section to build message. Unfortunatelly pytyon code is not ready to build signed message
 > {"command":"pushSignedMessageToPending", "messageType": "direct", "result":["message1...","message2..."]}
@@ -288,7 +288,7 @@ python wsdump.py ws://127.0.0.1:8001
 not defined yet
 ```
 
-> The above command returns JSON structured like this for `getTransactionMessageForSign` command:
+> The above command returns JSON structured like this for `getTransactionMessageForSign` command. result message will be signed by Wallet and send back by `pushSignedMessageToPending` command. :
 
 ```json
 {
@@ -307,18 +307,43 @@ not defined yet
 > The above command returns JSON structured like this for `pushSignedMessageToPending` command:
 
 ```json
-# output of shell script
 {
-  "command":"pushSignedMessageToPending", 
-  "messageType": 
-  "direct", 
-  "result":
-    [ "<signedMessage1...>", "<signedMessage1...>" ]
-  }
+  "command": "notification", 
+  "tag": "FFFFx0", 
+  "status": 0, 
+  "commandCode": "402", 
+  "exceptSocket": [3], 
+  "messageType": "broadcast", 
+  "result": 
+    ["TX0aea1917ee5c4e1090f264ebb3d00269775b6c0a853f64c30abcae47b4edfd16","TXe6d2642c00c9a782b58a0d5b7f0f537282f9257b736cc97648d8589701a02a85"], 
+  "socketID": 1
+}
 ```
 
 Send coint consist of 2 steps. 
 `getTransactionMessageForSign` and `pushSignedMessageToPending` commands.
 
 `getTransactionMessageForSign` is used for get message from Node (with balance info).
-`pushSignedMessageToPending` is used for to sign message with Wallet privsate key and push to Node (pending transactions)
+`pushSignedMessageToPending` is used for to sign message with Wallet privsate key and push to Node (pending transactions).
+
+### WS Request
+
+``webSocket.send(<JSON>");``
+
+### **getTransactionMessageForSign** message parameters
+
+key | value | Description
+--------- | ------- | -----------
+command | getTransactionMessageForSign |  mandatory
+messageType| direct | mandatory
+result| list  | mandatory
+forReciverData| text  | mandatory
+forSenderData| text  | mandatory
+
+### **pushSignedMessageToPending** message parameters
+
+key | value | Description
+--------- | ------- | -----------
+command | pushSignedMessageToPending |  mandatory
+messageType| direct | mandatory
+result| list  | mandatory
