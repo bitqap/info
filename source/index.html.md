@@ -45,7 +45,7 @@ python3 socketGateway3.py
 ./startLocalApp.sh
 
 # another session
-startExternalApp.sh
+./startExternalApp.sh
 ```
 
 ![Alt text](https://github.com/bitqap/bitqap/blob/main/doc/img/TopologyBashCoin_v1.png?raw=true)
@@ -352,3 +352,8 @@ key | value | Description
 command | pushSignedMessageToPending |  mandatory
 messageType| direct | mandatory
 result| list  | mandatory
+
+
+
+
+
