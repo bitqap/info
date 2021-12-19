@@ -51,7 +51,7 @@ mapERRORFunction2Code () {
 ```
 
 
-Error Code | Meaning
+Function | Error Code
 ---------- | -------
 mine|1500
 mineGenesis|1501
