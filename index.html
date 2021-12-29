@@ -296,7 +296,7 @@
     </script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;python&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -308,7 +308,6 @@
         <div class="lang-selector">
               <a href="#" data-language-name="shell">shell</a>
               <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -361,7 +360,7 @@ Currently this project under development.</p>
 
 <p>Core block calculation app developed by <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">BASH</a> language, and network interface developed on <a href="https://www.python.org/">python3</a>. BITQAP network uses Peer to Peer concept using <a href="https://en.wikipedia.org/wiki/WebSocket">WebSocket</a> protocol.</p>
 
-<p>We have language bindings in Shell, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>We have language bindings in Shell, Python You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
 <h1 id='topology'>Topology</h1><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># download git project</span>
 git clone https://github.com/bitqap/bitqap.git
 
@@ -384,6 +383,12 @@ Copy of <code>./startLocalApp.sh</code> script output writing to <code>NAMED_PIP
 <code>NAMED_PIPE_BSH</code> and <code>NAMED_PIPE_EXT</code> file descriptor is 3</p>
 <h1 id='mining-steps'>Mining steps</h1>
 <p><img src="https://github.com/bitqap/bitqap/blob/main/doc/img/p2pCropped.gif?raw=true" alt="Alt text" /></p>
+
+<p>Step1: Node finds block hash in defined difficulty level.
+Step2: Node shares block information as notification command to its neighbors <code>{&quot;command&quot;: &quot;notification&quot;,...}</code>.
+Step3: Neighbor then requests block content from node.
+Step4: The node shares the block content using BASE64 encoding.
+Step5: Once the neighbor adds the BLOCK to the local BLOCKCHAIN (after validation), it also notifies its neighbors. So it propagates.</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>To generate Private/Public Key pair use this shell code:</p>
@@ -393,35 +398,32 @@ openssl genrsa <span class="nt">-aes128</span> <span class="nt">-out</span> user
 openssl genrsa  <span class="nt">-out</span> user.key 2048
 openssl req <span class="nt">-key</span> user.key <span class="nt">-new</span> <span class="nt">-out</span> user.csr
 openssl rsa <span class="nt">-in</span> user.key  <span class="nt">-pubout</span> <span class="o">&gt;</span> user.pub
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="ow">not</span> <span class="n">defined</span> <span class="n">yet</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">not</span> <span class="nx">defined</span> <span class="nx">yet</span>
 </code></pre></div>
 <blockquote>
-<p>Private/Public key required to do any action</p>
+<p>Private/Public key required to do any action.</p>
 </blockquote>
 
-<p>bitqap uses self signed Public/Private key-pair to accept HTTPS calls only from another nodes or Wallets.
-[developer portal](https://github.com/aze2201/bashCoin.</p>
-
-<p>This part is still under development, because of python ssl.py module doesn&#39;t support enctyped key (autofill passphrase)</p>
-
-<p><code>Authorization: private-key</code></p>
+<p>The <strong>BITQAP</strong> blockchain does not store any user information. Your private key is your everything.
+Third-party wallets can bind your email to your private key.
+However, in theory, the public and private keys are generated and stored on the end device (wallet).
+Wallet can share the public key with third parties in sha256sum format or QR code format.
+Wallet signs the transaction message with the private key stored on the end device. 
+Only the Linux <code>shell</code> command for creating the public/private key is available in this documentation.</p>
 
 <aside class="notice">
 You must generate private/public key on your device and secure it.
 </aside>
-<h1 id='bitqap-messages'>BITQAP messages</h1><h2 id='account-information'>Account information</h2><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="nb">cat </span>cert/example.com.pub| <span class="nb">sha256sum</span>  | <span class="nb">awk</span> <span class="s1">'{print $1}'</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="ow">not</span> <span class="n">defined</span> <span class="n">yet</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">not</span> <span class="nx">defined</span> <span class="nx">yet</span>
+<h1 id='bitqap-messages'>BITQAP messages</h1><h2 id='account-information'>Account information</h2><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># this is your userid. You can share by text or QR code.</span>
+<span class="nb">cat </span>cert/example.com.pub| <span class="nb">sha256sum</span>  | <span class="nb">awk</span> <span class="s1">'{print $1}'</span>
 </code></pre></div>
 <blockquote>
 <p>The above command returns TXT structured like this:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight shell tab-shell"><code>497cea9f5af23c76922d7bfc6237d8e225248887defcc333f36ba853a1266848
 </code></pre></div>
-<p>Your account is SHA256 of public key. In future other accounts will use this info to coins. 
+<p>Your account is sha256sum of Public key. In future other accounts will use this info to coins. 
 You can provide this account as URL or QR code </p>
-<h3 id='no-ws-request'>no WS Request</h3><h3 id='message-parameters'>message parameters</h3>
+<h3 id='no-ws-request'>no WS Request</h3><h3 id='message-parameters'>message parameters.</h3>
 <table><thead>
 <tr>
 <th>key</th>
@@ -439,11 +441,10 @@ You can provide this account as URL or QR code </p>
 <aside class="success">
 Remember — keep your private key secret
 </aside>
-<h2 id='start-mining'>start mining</h2><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="nb">cd </span>bin
-./bashCoin.sh <span class="s1">'{"command":"mine","appType":"miner","messageType":"direct"}'</span>
+<h2 id='start-mining'>start mining</h2><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="o">&gt;</span> ccd bin
+<span class="o">&gt;</span> ./bashCoin.sh <span class="s1">'{"command":"mine","appType":"miner","messageType":"direct"}'</span>
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">python</span> <span class="n">wsdump</span><span class="p">.</span><span class="n">py</span> <span class="n">ws</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8001</span>
 <span class="o">&gt;</span> <span class="p">{</span><span class="s">"command"</span><span class="p">:</span><span class="s">"mine"</span><span class="p">,</span><span class="s">"appType"</span><span class="p">:</span><span class="s">"miner"</span><span class="p">,</span><span class="s">"messageType"</span><span class="p">:</span><span class="s">"direct"</span><span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">not</span> <span class="nx">defined</span> <span class="nx">yet</span>
 </code></pre></div>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -461,6 +462,16 @@ Remember — keep your private key secret
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Mine will insert the top transactions from the queue with the 100 highest into the next block and start calculating.</p>
+
+<p>Step1: Node will collect transactions from pendings. By default it is 100 (based on config.ini file)
+Step2: Node will add it&#39;s REWARD transaction also which is include Pub Key and own signature in base64 format.
+Step3: Node will start calculating HASH (currently md5sum) by increasing NONCE
+Step4: Once HASH found it will construct file and will propagate.</p>
+
+<aside class="notice">
+Code is supporting HIGH peformance MINING wich is writting in C programming. 
+You can enable in `config.ini` by change value `CMINING` from 0 to 1.
+</aside>
 
 <aside class="warning">mine command can be sent only from localhost.</aside>
 <h3 id='ws-request'>WS Request</h3>
@@ -495,7 +506,6 @@ webSocket.send(&lt;JSON&gt;&quot;);
 ./bashCoin.sh <span class="s1">'{"command":"checkbalance","ACCTNUM":"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034","messageType":"direct"}'</span>
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">python</span> <span class="n">wsdump</span><span class="p">.</span><span class="n">py</span> <span class="n">ws</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8001</span>
 <span class="o">&gt;</span> <span class="p">{</span><span class="s">"command"</span><span class="p">:</span><span class="s">"checkbalance"</span><span class="p">,</span><span class="s">"ACCTNUM"</span><span class="p">:</span><span class="s">"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034"</span><span class="p">,</span><span class="s">"messageType"</span><span class="p">:</span><span class="s">"direct"</span><span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">not</span> <span class="nx">defined</span> <span class="nx">yet</span>
 </code></pre></div>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -513,7 +523,9 @@ webSocket.send(&lt;JSON&gt;&quot;);
       </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>This function will use UTXO method to calculate balance.</p>
+<p>This function will use UTXO method to calculate balance.
+Once balance calculate it wil add to block as latest information and signature will included.
+If TX found <code>&lt;pubkey1&gt;:&lt;pubkey1&gt;:&lt;AMOUNT&gt;:...&lt;PUBKEY&gt;:&lt;SIGNATURE&gt;</code> then will return balance.</p>
 <h3 id='ws-request-2'>WS Request</h3>
 <p><code>webSocket.send(&lt;JSON&gt;&quot;);</code></p>
 <h3 id='message-parameters-3'>message parameters</h3>
@@ -540,6 +552,8 @@ webSocket.send(&lt;JSON&gt;&quot;);
 <td>mandatory</td>
 </tr>
 </tbody></table>
+
+<aside class="warning">Return value still not distinguish Confirmed or Pending</aside>
 <h2 id='send-coin'>send coin</h2><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c">#full message</span>
 
 <span class="nv">fullMessage</span><span class="o">=</span><span class="s1">'{"command": "getTransactionMessageForSign", "status": 0, "destinationSocket": "2", "result": {"forReciverData": "50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:b1bd54c941aef5e0096c46fd21d971b3a3cf5325226afb89c0a9d6845a491af6:5:3:202111121313", "forSenderData": "50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034:38:0:202111121313"}}'</span>
@@ -588,7 +602,6 @@ webSocket.send(&lt;JSON&gt;&quot;);
 
 <span class="c1"># used shell section to build message. Unfortunatelly pytyon code is not ready to build signed message
 </span><span class="o">&gt;</span> <span class="p">{</span><span class="s">"command"</span><span class="p">:</span><span class="s">"pushSignedMessageToPending"</span><span class="p">,</span> <span class="s">"messageType"</span><span class="p">:</span> <span class="s">"direct"</span><span class="p">,</span> <span class="s">"result"</span><span class="p">:[</span><span class="s">"message1..."</span><span class="p">,</span><span class="s">"message2..."</span><span class="p">]}</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">not</span> <span class="nx">defined</span> <span class="nx">yet</span>
 </code></pre></div>
 <blockquote>
 <p>The above command returns JSON structured like this for <code>getTransactionMessageForSign</code> command. result message will be signed by Wallet and send back by <code>pushSignedMessageToPending</code> command. :</p>
@@ -627,7 +640,9 @@ webSocket.send(&lt;JSON&gt;&quot;);
 <code>pushSignedMessageToPending</code> is used for to sign message with Wallet privsate key and push to Node (pending transactions).</p>
 <h3 id='ws-request-3'>WS Request</h3>
 <p><code>webSocket.send(&lt;JSON&gt;&quot;);</code></p>
-<h3 id='gettransactionmessageforsign-message-parameters'><strong>getTransactionMessageForSign</strong> message parameters</h3>
+
+<p><strong>getTransactionMessageForSign</strong> message parameters</p>
+
 <table><thead>
 <tr>
 <th>key</th>
@@ -661,7 +676,9 @@ webSocket.send(&lt;JSON&gt;&quot;);
 <td>mandatory</td>
 </tr>
 </tbody></table>
-<h3 id='pushsignedmessagetopending-message-parameters'><strong>pushSignedMessageToPending</strong> message parameters</h3>
+
+<p><strong>pushSignedMessageToPending</strong> message parameters</p>
+
 <table><thead>
 <tr>
 <th>key</th>
@@ -804,7 +821,6 @@ mapERRORFunction2Code <span class="o">()</span> <span class="o">{</span>
           <div class="lang-selector">
                 <a href="#" data-language-name="shell">shell</a>
                 <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
           </div>
       </div>
     </div>
