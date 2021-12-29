@@ -4,7 +4,6 @@ title: BITQAP
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
   - python
-  - javascript
 
 toc_footers:
   - <a href='https://github.com/bitqap/bitqap'>GITHUB</a>
@@ -28,7 +27,7 @@ Currently this project under development.
 
 Core block calculation app developed by [BASH](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) language, and network interface developed on [python3](https://www.python.org/). BITQAP network uses Peer to Peer concept using [WebSocket](https://en.wikipedia.org/wiki/WebSocket ) protocol.
 
-We have language bindings in Shell, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have language bindings in Shell, Python You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 # Topology
 
@@ -58,6 +57,13 @@ Copy of `./startLocalApp.sh` script output writing to `NAMED_PIPE_EXT` (variable
 # Mining steps
 ![Alt text](https://github.com/bitqap/bitqap/blob/main/doc/img/p2pCropped.gif?raw=true)
 
+Step1: Node finds block hash in defined difficulty level.
+Step2: Node shares block information as notification command to its neighbors `{"command": "notification",...}`.
+Step3: Neighbor then requests block content from node.
+Step4: The node shares the block content using BASE64 encoding.
+Step5: Once the neighbor adds the BLOCK to the local BLOCKCHAIN (after validation), it also notifies its neighbors. So it propagates.
+
+
 # Authentication
 
 > To generate Private/Public Key pair use this shell code:
@@ -71,22 +77,16 @@ openssl req -key user.key -new -out user.csr
 openssl rsa -in user.key  -pubout > user.pub
 ```
 
-```python
-not defined yet
-```
 
-```javascript
-not defined yet
-```
+> Private/Public key required to do any action.
 
-> Private/Public key required to do any action
+The **BITQAP** blockchain does not store any user information. Your private key is your everything.
+Third-party wallets can bind your email to your private key.
+However, in theory, the public and private keys are generated and stored on the end device (wallet).
+Wallet can share the public key with third parties in sha256sum format or QR code format.
+Wallet signs the transaction message with the private key stored on the end device. 
+Only the Linux `shell` command for creating the public/private key is available in this documentation.
 
-bitqap uses self signed Public/Private key-pair to accept HTTPS calls only from another nodes or Wallets.
-[developer portal](https://github.com/aze2201/bashCoin.
-
-This part is still under development, because of python ssl.py module doesn't support enctyped key (autofill passphrase)
-
-`Authorization: private-key`
 
 <aside class="notice">
 You must generate private/public key on your device and secure it.
@@ -98,16 +98,10 @@ You must generate private/public key on your device and secure it.
 
 
 ```shell
+# this is your userid. You can share by text or QR code.
 cat cert/example.com.pub| sha256sum  | awk '{print $1}'
 ```
 
-```python
-not defined yet
-```
-
-```javascript
-not defined yet
-```
 
 > The above command returns TXT structured like this:
 
@@ -115,13 +109,13 @@ not defined yet
 497cea9f5af23c76922d7bfc6237d8e225248887defcc333f36ba853a1266848
 ```
 
-Your account is SHA256 of public key. In future other accounts will use this info to coins. 
+Your account is sha256sum of Public key. In future other accounts will use this info to coins. 
 You can provide this account as URL or QR code 
 
 ### no WS Request
 
 
-### message parameters
+### message parameters. 
 
 key | value | Description
 --------- | ------- | -----------
@@ -134,8 +128,8 @@ Remember — keep your private key secret
 ## start mining
 
 ```shell
-cd bin
-./bashCoin.sh '{"command":"mine","appType":"miner","messageType":"direct"}'
+> ccd bin
+> ./bashCoin.sh '{"command":"mine","appType":"miner","messageType":"direct"}'
 ```
 
 
@@ -144,10 +138,6 @@ python wsdump.py ws://127.0.0.1:8001
 > {"command":"mine","appType":"miner","messageType":"direct"}
 ```
 
-
-```javascript
-not defined yet
-```
 
 > The above command returns JSON structured like this:
 
@@ -167,6 +157,15 @@ not defined yet
 
 Mine will insert the top transactions from the queue with the 100 highest into the next block and start calculating.
 
+Step1: Node will collect transactions from pendings. By default it is 100 (based on config.ini file)
+Step2: Node will add it's REWARD transaction also which is include Pub Key and own signature in base64 format.
+Step3: Node will start calculating HASH (currently md5sum) by increasing NONCE
+Step4: Once HASH found it will construct file and will propagate.
+
+<aside class="notice">
+Code is supporting HIGH peformance MINING wich is writting in C programming. 
+You can enable in `config.ini` by change value `CMINING` from 0 to 1.
+</aside>
 
 <aside class="warning">mine command can be sent only from localhost.</aside>
 
@@ -197,9 +196,6 @@ python wsdump.py ws://127.0.0.1:8001
 > {"command":"checkbalance","ACCTNUM":"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034","messageType":"direct"}
 ```
 
-```javascript
-not defined yet
-```
 
 > The above command returns JSON structured like this:
 
@@ -219,6 +215,9 @@ not defined yet
 ```
 
 This function will use UTXO method to calculate balance.
+Once balance calculate it wil add to block as latest information and signature will included.
+If TX found `<pubkey1>:<pubkey1>:<AMOUNT>:...<PUBKEY>:<SIGNATURE>` then will return balance.
+
 
 ### WS Request
 
@@ -232,7 +231,7 @@ command | checkbalance |  mandatory
 messageType| direct/broadcast | mandatory
 ACCTNUM| sha256 hash of Pub key | mandatory
 
-
+<aside class="warning">Return value still not distinguish Confirmed or Pending</aside>
 
 ## send coin
 ```shell
@@ -289,9 +288,6 @@ python wsdump.py ws://127.0.0.1:8001
 > {"command":"pushSignedMessageToPending", "messageType": "direct", "result":["message1...","message2..."]}
 ```
 
-```javascript
-not defined yet
-```
 
 > The above command returns JSON structured like this for `getTransactionMessageForSign` command. result message will be signed by Wallet and send back by `pushSignedMessageToPending` command. :
 
@@ -335,7 +331,7 @@ Send coint consist of 2 steps.
 
 ``webSocket.send(<JSON>");``
 
-### **getTransactionMessageForSign** message parameters
+**getTransactionMessageForSign** message parameters
 
 key | value | Description
 --------- | ------- | -----------
@@ -345,15 +341,10 @@ result| list  | mandatory
 forReciverData| text  | mandatory
 forSenderData| text  | mandatory
 
-### **pushSignedMessageToPending** message parameters
+**pushSignedMessageToPending** message parameters
 
 key | value | Description
 --------- | ------- | -----------
 command | pushSignedMessageToPending |  mandatory
 messageType| direct | mandatory
 result| list  | mandatory
-
-
-
-
-
