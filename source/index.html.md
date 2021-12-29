@@ -27,7 +27,7 @@ Currently this project under development.
 
 Core block calculation app developed by [BASH](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) language, and network interface developed on [python3](https://www.python.org/). BITQAP network uses Peer to Peer concept using [WebSocket](https://en.wikipedia.org/wiki/WebSocket ) protocol.
 
-We have language bindings in Shell, Python You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have language bindings in Shell, Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 # Topology
 
@@ -57,11 +57,11 @@ Copy of `./startLocalApp.sh` script output writing to `NAMED_PIPE_EXT` (variable
 # Mining steps
 ![Alt text](https://github.com/bitqap/bitqap/blob/main/doc/img/p2pCropped.gif?raw=true)
 
-Step1: Node finds block hash in defined difficulty level.
-Step2: Node shares block information as notification command to its neighbors `{"command": "notification",...}`.
-Step3: Neighbor then requests block content from node.
-Step4: The node shares the block content using BASE64 encoding.
-Step5: Once the neighbor adds the BLOCK to the local BLOCKCHAIN (after validation), it also notifies its neighbors. So it propagates.
+1. Node finds block hash in defined difficulty level.
+2. Node shares block information as notification command to its neighbors `{"command": "notification",...}`.
+3. Neighbor then requests block content from node.
+4. The node shares the block content using BASE64 encoding.
+5. Once the neighbor adds the BLOCK to the local BLOCKCHAIN (after validation), it also notifies its neighbors. So it propagates.
 
 
 # Authentication
@@ -157,10 +157,10 @@ python wsdump.py ws://127.0.0.1:8001
 
 Mine will insert the top transactions from the queue with the 100 highest into the next block and start calculating.
 
-Step1: Node will collect transactions from pendings. By default it is 100 (based on config.ini file)
-Step2: Node will add it's REWARD transaction also which is include Pub Key and own signature in base64 format.
-Step3: Node will start calculating HASH (currently md5sum) by increasing NONCE
-Step4: Once HASH found it will construct file and will propagate.
+1.  Node will collect transactions from pendings. By default it is 100 (based on config.ini file)
+2.  Node will add it's REWARD transaction also which is include Pub Key and own signature in base64 format.
+3.  Node will start calculating HASH (currently md5sum) by increasing NONCE.
+4.  Once, HASH found it will construct file and will propagate.
 
 <aside class="notice">
 Code is supporting HIGH peformance MINING wich is writting in C programming. 
