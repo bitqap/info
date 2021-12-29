@@ -128,7 +128,7 @@ Remember — keep your private key secret
 ## start mining
 
 ```shell
-> ccd bin
+> cd bin
 > ./bashCoin.sh '{"command":"mine","appType":"miner","messageType":"direct"}'
 ```
 
