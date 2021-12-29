@@ -57,6 +57,7 @@ Copy of `./startLocalApp.sh` script output writing to `NAMED_PIPE_EXT` (variable
 # Mining steps
 ![Alt text](https://github.com/bitqap/bitqap/blob/main/doc/img/p2pCropped.gif?raw=true)
 
+Steps:
 1. Node finds block hash in defined difficulty level.
 2. Node shares block information as notification command to its neighbors `{"command": "notification",...}`.
 3. Neighbor then requests block content from node.
@@ -157,6 +158,7 @@ python wsdump.py ws://127.0.0.1:8001
 
 Mine will insert the top transactions from the queue with the 100 highest into the next block and start calculating.
 
+Steps:
 1.  Node will collect transactions from pendings. By default it is 100 (based on config.ini file)
 2.  Node will add it's REWARD transaction also which is include Pub Key and own signature in base64 format.
 3.  Node will start calculating HASH (currently md5sum) by increasing NONCE.
