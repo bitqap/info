@@ -360,7 +360,7 @@ Currently this project under development.</p>
 
 <p>Core block calculation app developed by <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">BASH</a> language, and network interface developed on <a href="https://www.python.org/">python3</a>. BITQAP network uses Peer to Peer concept using <a href="https://en.wikipedia.org/wiki/WebSocket">WebSocket</a> protocol.</p>
 
-<p>We have language bindings in Shell, Python You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>We have language bindings in Shell, Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
 <h1 id='topology'>Topology</h1><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># download git project</span>
 git clone https://github.com/bitqap/bitqap.git
 
@@ -384,11 +384,13 @@ Copy of <code>./startLocalApp.sh</code> script output writing to <code>NAMED_PIP
 <h1 id='mining-steps'>Mining steps</h1>
 <p><img src="https://github.com/bitqap/bitqap/blob/main/doc/img/p2pCropped.gif?raw=true" alt="Alt text" /></p>
 
-<p>Step1: Node finds block hash in defined difficulty level.
-Step2: Node shares block information as notification command to its neighbors <code>{&quot;command&quot;: &quot;notification&quot;,...}</code>.
-Step3: Neighbor then requests block content from node.
-Step4: The node shares the block content using BASE64 encoding.
-Step5: Once the neighbor adds the BLOCK to the local BLOCKCHAIN (after validation), it also notifies its neighbors. So it propagates.</p>
+<ol>
+<li>Node finds block hash in defined difficulty level.</li>
+<li>Node shares block information as notification command to its neighbors <code>{&quot;command&quot;: &quot;notification&quot;,...}</code>.</li>
+<li>Neighbor then requests block content from node.</li>
+<li>The node shares the block content using BASE64 encoding.</li>
+<li>Once the neighbor adds the BLOCK to the local BLOCKCHAIN (after validation), it also notifies its neighbors. So it propagates.</li>
+</ol>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>To generate Private/Public Key pair use this shell code:</p>
@@ -463,10 +465,12 @@ Remember — keep your private key secret
 </span></code></pre></div>
 <p>Mine will insert the top transactions from the queue with the 100 highest into the next block and start calculating.</p>
 
-<p>Step1: Node will collect transactions from pendings. By default it is 100 (based on config.ini file)
-Step2: Node will add it&#39;s REWARD transaction also which is include Pub Key and own signature in base64 format.
-Step3: Node will start calculating HASH (currently md5sum) by increasing NONCE
-Step4: Once HASH found it will construct file and will propagate.</p>
+<ol>
+<li> Node will collect transactions from pendings. By default it is 100 (based on config.ini file)</li>
+<li> Node will add it&#39;s REWARD transaction also which is include Pub Key and own signature in base64 format.</li>
+<li> Node will start calculating HASH (currently md5sum) by increasing NONCE.</li>
+<li> Once, HASH found it will construct file and will propagate.</li>
+</ol>
 
 <aside class="notice">
 Code is supporting HIGH peformance MINING wich is writting in C programming. 
