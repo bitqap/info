@@ -58,11 +58,12 @@ Copy of `./startLocalApp.sh` script output writing to `NAMED_PIPE_EXT` (variable
 ![Alt text](https://github.com/bitqap/bitqap/blob/main/doc/img/p2pCropped.gif?raw=true)
 
 Steps:
-* Node finds block hash in defined difficulty level.
-* Node shares block information as notification command to its neighbors `{"command": "notification",...}`.
-* Neighbor then requests block content from node.
-* The node shares the block content using BASE64 encoding.
-* Once the neighbor adds the BLOCK to the local BLOCKCHAIN (after validation), it also notifies its neighbors. So it propagates.
+
+- Node finds block hash in defined difficulty level.
+- Node shares block information as notification command to its neighbors `{"command": "notification",...}`.
+- Neighbor then requests block content from node.
+- The node shares the block content using BASE64 encoding.
+- Once the neighbor adds the BLOCK to the local BLOCKCHAIN (after validation), it also notifies its neighbors. So it propagates.
 
 
 # Authentication
@@ -160,10 +161,10 @@ Mine will insert the top transactions from the queue with the 100 highest into t
 
 Steps:
 
-* Node will collect transactions from pendings. By default it is 100 (based on config.ini file)
-* Node will add it's REWARD transaction also which is include Pub Key and own signature in base64 format.
-* Node will start calculating HASH (currently md5sum) by increasing NONCE.
-* Once, HASH found it will construct file and will propagate.
+- Node will collect transactions from pendings. By default it is 100 (based on config.ini file)
+- Node will add it's REWARD transaction also which is include Pub Key and own signature in base64 format.
+- Node will start calculating HASH (currently md5sum) by increasing NONCE.
+- Once, HASH found it will construct file and will propagate.
 
 <aside class="notice">
 Code is supporting HIGH peformance MINING wich is writting in C programming. 
