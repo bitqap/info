@@ -420,7 +420,8 @@ Only the Linux <code>shell</code> command for creating the public/private key is
 <aside class="notice">
 You must generate private/public key on your device and secure it.
 </aside>
-<h1 id='bitqap-messages'>BITQAP messages</h1><h2 id='network-check-ping'>Network check (ping)</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">python</span> <span class="n">wsdump</span><span class="p">.</span><span class="n">py</span> <span class="n">ws</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8001</span>
+<h1 id='bitqap-messages'>BITQAP messages</h1><h2 id='network-check-ping'>Network check (ping)</h2><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># no shell code for this.</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">python</span> <span class="n">wsdump</span><span class="p">.</span><span class="n">py</span> <span class="n">ws</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8001</span>
 <span class="o">&gt;</span> <span class="p">{</span><span class="s">"command"</span><span class="p">:</span><span class="s">"ping"</span><span class="p">,</span><span class="s">"messageType"</span><span class="p">:</span><span class="s">"direct"</span><span class="p">,</span><span class="s">"status"</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
 </code></pre></div>
 <blockquote>
@@ -436,6 +437,29 @@ You must generate private/public key on your device and secure it.
     </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>End point can send ping message periodically. If <code>status:0</code> then ws ping request is successfull to node. </p>
+<h3 id='ws-request'>WS Request</h3>
+<p><code>
+webSocket.send(&lt;JSON&gt;);
+</code></p>
+<h3 id='message-parameters'>message parameters</h3>
+<table><thead>
+<tr>
+<th>key</th>
+<th>value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>command</td>
+<td>ping</td>
+<td>mandatory</td>
+</tr>
+<tr>
+<td>messageType</td>
+<td>direct/broadcast</td>
+<td>mandatory</td>
+</tr>
+</tbody></table>
 <h2 id='account-information'>Account information</h2><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># this is your userid. You can share by text or QR code.</span>
 <span class="nb">cat </span>cert/example.com.pub| <span class="nb">sha256sum</span>  | <span class="nb">awk</span> <span class="s1">'{print $1}'</span>
 </code></pre></div>
@@ -446,7 +470,7 @@ You must generate private/public key on your device and secure it.
 </code></pre></div>
 <p>Your account is sha256sum of Public key. In future other accounts will use this info to coins. 
 You can provide this account as URL or QR code </p>
-<h3 id='no-ws-request'>no WS Request</h3><h3 id='message-parameters'>message parameters.</h3>
+<h3 id='no-ws-request'>no WS Request</h3><h3 id='message-parameters-2'>message parameters.</h3>
 <table><thead>
 <tr>
 <th>key</th>
@@ -501,11 +525,11 @@ You can enable in `config.ini` by change value `CMINING` from 0 to 1.
 </aside>
 
 <aside class="warning">mine command can be sent only from localhost.</aside>
-<h3 id='ws-request'>WS Request</h3>
+<h3 id='ws-request-2'>WS Request</h3>
 <p><code>
 webSocket.send(&lt;JSON&gt;&quot;);
 </code></p>
-<h3 id='message-parameters-2'>message parameters</h3>
+<h3 id='message-parameters-3'>message parameters</h3>
 <table><thead>
 <tr>
 <th>key</th>
@@ -553,9 +577,9 @@ webSocket.send(&lt;JSON&gt;&quot;);
 <p>This function will use UTXO method to calculate balance.
 Once balance calculate it wil add to block as latest information and signature will included.
 If TX found <code>&lt;pubkey1&gt;:&lt;pubkey1&gt;:&lt;AMOUNT&gt;:...&lt;PUBKEY&gt;:&lt;SIGNATURE&gt;</code> then will return balance.</p>
-<h3 id='ws-request-2'>WS Request</h3>
+<h3 id='ws-request-3'>WS Request</h3>
 <p><code>webSocket.send(&lt;JSON&gt;&quot;);</code></p>
-<h3 id='message-parameters-3'>message parameters</h3>
+<h3 id='message-parameters-4'>message parameters</h3>
 <table><thead>
 <tr>
 <th>key</th>
@@ -665,7 +689,7 @@ If TX found <code>&lt;pubkey1&gt;:&lt;pubkey1&gt;:&lt;AMOUNT&gt;:...&lt;PUBKEY&g
 
 <p><code>getTransactionMessageForSign</code> is used for get message from Node (with balance info).
 <code>pushSignedMessageToPending</code> is used for to sign message with Wallet privsate key and push to Node (pending transactions).</p>
-<h3 id='ws-request-3'>WS Request</h3>
+<h3 id='ws-request-4'>WS Request</h3>
 <p><code>webSocket.send(&lt;JSON&gt;&quot;);</code></p>
 
 <p><strong>getTransactionMessageForSign</strong> message parameters</p>
