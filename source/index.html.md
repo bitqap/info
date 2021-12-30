@@ -98,6 +98,10 @@ You must generate private/public key on your device and secure it.
 
 ## Network check (ping)
 
+```shell
+# no shell code for this.
+```
+
 ```python
 python wsdump.py ws://127.0.0.1:8001
 > {"command":"ping","messageType":"direct","status":0}
@@ -116,6 +120,20 @@ python wsdump.py ws://127.0.0.1:8001
 ```
 
 End point can send ping message periodically. If `status:0` then ws ping request is successfull to node. 
+
+### WS Request
+
+``
+webSocket.send(<JSON>);
+``
+
+### message parameters
+
+key | value | Description
+--------- | ------- | -----------
+command | ping |  mandatory
+messageType| direct/broadcast | mandatory
+
 
 ## Account information
 
