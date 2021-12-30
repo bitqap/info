@@ -384,12 +384,15 @@ Copy of <code>./startLocalApp.sh</code> script output writing to <code>NAMED_PIP
 <h1 id='mining-steps'>Mining steps</h1>
 <p><img src="https://github.com/bitqap/bitqap/blob/main/doc/img/p2pCropped.gif?raw=true" alt="Alt text" /></p>
 
-<p>Steps:
-* Node finds block hash in defined difficulty level.
-* Node shares block information as notification command to its neighbors <code>{&quot;command&quot;: &quot;notification&quot;,...}</code>.
-* Neighbor then requests block content from node.
-* The node shares the block content using BASE64 encoding.
-* Once the neighbor adds the BLOCK to the local BLOCKCHAIN (after validation), it also notifies its neighbors. So it propagates.</p>
+<p>Steps:</p>
+
+<ul>
+<li>Node finds block hash in defined difficulty level.</li>
+<li>Node shares block information as notification command to its neighbors <code>{&quot;command&quot;: &quot;notification&quot;,...}</code>.</li>
+<li>Neighbor then requests block content from node.</li>
+<li>The node shares the block content using BASE64 encoding.</li>
+<li>Once the neighbor adds the BLOCK to the local BLOCKCHAIN (after validation), it also notifies its neighbors. So it propagates.</li>
+</ul>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>To generate Private/Public Key pair use this shell code:</p>
