@@ -384,15 +384,12 @@ Copy of <code>./startLocalApp.sh</code> script output writing to <code>NAMED_PIP
 <h1 id='mining-steps'>Mining steps</h1>
 <p><img src="https://github.com/bitqap/bitqap/blob/main/doc/img/p2pCropped.gif?raw=true" alt="Alt text" /></p>
 
-<p>Steps:</p>
-
-<ol>
-<li>Node finds block hash in defined difficulty level.</li>
-<li>Node shares block information as notification command to its neighbors <code>{&quot;command&quot;: &quot;notification&quot;,...}</code>.</li>
-<li>Neighbor then requests block content from node.</li>
-<li>The node shares the block content using BASE64 encoding.</li>
-<li>Once the neighbor adds the BLOCK to the local BLOCKCHAIN (after validation), it also notifies its neighbors. So it propagates.</li>
-</ol>
+<p>Steps:
+* Node finds block hash in defined difficulty level.
+* Node shares block information as notification command to its neighbors <code>{&quot;command&quot;: &quot;notification&quot;,...}</code>.
+* Neighbor then requests block content from node.
+* The node shares the block content using BASE64 encoding.
+* Once the neighbor adds the BLOCK to the local BLOCKCHAIN (after validation), it also notifies its neighbors. So it propagates.</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>To generate Private/Public Key pair use this shell code:</p>
@@ -469,12 +466,12 @@ Remember — keep your private key secret
 
 <p>Steps:</p>
 
-<ol>
-<li> Node will collect transactions from pendings. By default it is 100 (based on config.ini file)</li>
-<li> Node will add it&#39;s REWARD transaction also which is include Pub Key and own signature in base64 format.</li>
-<li> Node will start calculating HASH (currently md5sum) by increasing NONCE.</li>
-<li> Once, HASH found it will construct file and will propagate.</li>
-</ol>
+<ul>
+<li>Node will collect transactions from pendings. By default it is 100 (based on config.ini file)</li>
+<li>Node will add it&#39;s REWARD transaction also which is include Pub Key and own signature in base64 format.</li>
+<li>Node will start calculating HASH (currently md5sum) by increasing NONCE.</li>
+<li>Once, HASH found it will construct file and will propagate.</li>
+</ul>
 
 <aside class="notice">
 Code is supporting HIGH peformance MINING wich is writting in C programming. 
