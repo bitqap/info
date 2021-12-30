@@ -96,6 +96,27 @@ You must generate private/public key on your device and secure it.
 
 # BITQAP messages
 
+## Network check (ping)
+
+```python
+python wsdump.py ws://127.0.0.1:8001
+> {"command":"ping","messageType":"direct","status":0}
+```
+> The above command returns JSON structured like this:
+
+```json
+	{
+		"command": "ping", 
+		"messageType": "direct", 
+		"destinationSocket": 2, 
+		"from": "istehkam.com", 
+		"status": 0, 
+		"socketID": 1
+	}
+```
+
+End point can send ping message periodically. If `status:0` then ws ping request is successfull to node. 
+
 ## Account information
 
 
@@ -162,7 +183,7 @@ Mine will insert the top transactions from the queue with the 100 highest into t
 Steps:
 
 - Node will collect transactions from pendings. By default it is 100 (based on config.ini file)
-- Node will add it's REWARD transaction also which is include Pub Key and own signature in base64 format.
+- Node will add self REWARD transaction also which is include Pub Key and own signature in base64 format.
 - Node will start calculating HASH (currently md5sum) by increasing NONCE.
 - Once, HASH found it will construct file and will propagate.
 
