@@ -392,6 +392,13 @@ command | pushSignedMessageToPending |  mandatory
 messageType| direct | mandatory
 result| list  | mandatory
 
+<aside class="notice">
+Currenly application support RSA assimetric keys signature verification.
+</aside>
+
+<aside class="warning">Application does not support private key with AES encrypyed</aside>
+
+
 
 ##  get history
 
@@ -451,3 +458,7 @@ command | getHistory |  mandatory
 messageType| direct/broadcast | mandatory
 account| sha256 hash of Pub key | mandatory
 
+
+<aside class="notice">
+Method is not showing signature and public key of message. 
+</aside>
