@@ -391,3 +391,63 @@ key | value | Description
 command | pushSignedMessageToPending |  mandatory
 messageType| direct | mandatory
 result| list  | mandatory
+
+
+##  get history
+
+```shell
+cd bin
+./bashCoin.sh '{"command":"getHistory","messageType":"direct","account":"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034","messageType":"direct"}'
+```
+
+```python
+python wsdump.py ws://127.0.0.1:8001
+> {"command":"getHistory","messageType":"direct","account":"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034","messageType":"direct"}
+```
+
+
+> The above command returns JSON structured like this:
+
+```json
+  {
+    "command": "getHistory", 
+    "commandCode": "403", 
+    "messageType": "direct", 
+    "status": "0", 
+    "destinationSocket": "4",
+    "responseID":"a121dfrwesff33"
+    "txHistory": 
+      [
+        "TX808a7828b2f0c27d3fa01ce4f4...:REWARD:504165969...:2:0:20211029225028:in", 
+        "TXda48dd60ae50ca61c9828743b8...:REWARD:504165969...:2:0:20211029225055:in",
+        "TXd4fsdf60ae50ca61c9828743b8...:bca2504165969df...:504165969...:2:0:20211029225055:in"
+      ]
+    }
+```
+
+This method to get historical transactions for requested account
+Message will return transactions in list with ":" seprated
+### transaction fields
+
+column | value | Description
+--------- | ------- | -----------
+:1 | txID |  transaction ID in HASH
+:2| Sender | hashSHA256(pubKey)| Sender address
+:3| Reciever | hashSHA256(pubKey)| Reviever address
+:4| Amount | amount of transfered coin 
+:5| Fee | fee for transaction (commision)
+:6| Tranaction time | Tranaction time in UTC
+:7| Direction | incoming or outgoing 
+
+### WS Request
+
+``webSocket.send(<JSON>");``
+
+### message parameters
+
+key | value | Description
+--------- | ------- | -----------
+command | getHistory |  mandatory
+messageType| direct/broadcast | mandatory
+account| sha256 hash of Pub key | mandatory
+
