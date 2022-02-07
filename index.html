@@ -344,6 +344,9 @@
                   <li>
                     <a href="#send-coin" class="toc-h2 toc-link" data-title="send coin">send coin</a>
                   </li>
+                  <li>
+                    <a href="#get-history" class="toc-h2 toc-link" data-title="get history">get history</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -750,6 +753,101 @@ If TX found <code>&lt;pubkey1&gt;:&lt;pubkey1&gt;:&lt;AMOUNT&gt;:...&lt;PUBKEY&g
 <tr>
 <td>result</td>
 <td>list</td>
+<td>mandatory</td>
+</tr>
+</tbody></table>
+<h2 id='get-history'>get history</h2><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="nb">cd </span>bin
+./bashCoin.sh <span class="s1">'{"command":"getHistory","messageType":"direct","account":"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034","messageType":"direct"}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">python</span> <span class="n">wsdump</span><span class="p">.</span><span class="n">py</span> <span class="n">ws</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8001</span>
+<span class="o">&gt;</span> <span class="p">{</span><span class="s">"command"</span><span class="p">:</span><span class="s">"getHistory"</span><span class="p">,</span><span class="s">"messageType"</span><span class="p">:</span><span class="s">"direct"</span><span class="p">,</span><span class="s">"account"</span><span class="p">:</span><span class="s">"50416596951b715b7e8e658de7d9f751fb8b97ce4edf0891f269f64c8fa8e034"</span><span class="p">,</span><span class="s">"messageType"</span><span class="p">:</span><span class="s">"direct"</span><span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"getHistory"</span><span class="p">,</span><span class="w"> 
+    </span><span class="nl">"commandCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"403"</span><span class="p">,</span><span class="w"> 
+    </span><span class="nl">"messageType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"direct"</span><span class="p">,</span><span class="w"> 
+    </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w"> 
+    </span><span class="nl">"destinationSocket"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"responseID"</span><span class="p">:</span><span class="s2">"a121dfrwesff33"</span><span class="w">
+    </span><span class="nl">"txHistory"</span><span class="p">:</span><span class="w"> 
+      </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"TX808a7828b2f0c27d3fa01ce4f4...:REWARD:504165969...:2:0:20211029225028:in"</span><span class="p">,</span><span class="w"> 
+        </span><span class="s2">"TXda48dd60ae50ca61c9828743b8...:REWARD:504165969...:2:0:20211029225055:in"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"TXd4fsdf60ae50ca61c9828743b8...:bca2504165969df...:504165969...:2:0:20211029225055:in"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This method to get historical transactions for requested account
+Message will return transactions in list with &quot;:&quot; seprated</p>
+<h3 id='transaction-fields'>transaction fields</h3>
+<table><thead>
+<tr>
+<th>column</th>
+<th>value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:1</td>
+<td>txID</td>
+<td>transaction ID in HASH</td>
+</tr>
+<tr>
+<td>:2</td>
+<td>Sender</td>
+<td>hashSHA256(pubKey)</td>
+</tr>
+<tr>
+<td>:3</td>
+<td>Reciever</td>
+<td>hashSHA256(pubKey)</td>
+</tr>
+<tr>
+<td>:4</td>
+<td>Amount</td>
+<td>amount of transfered coin</td>
+</tr>
+<tr>
+<td>:5</td>
+<td>Fee</td>
+<td>fee for transaction (commision)</td>
+</tr>
+<tr>
+<td>:6</td>
+<td>Tranaction time</td>
+<td>Tranaction time in UTC</td>
+</tr>
+<tr>
+<td>:7</td>
+<td>Direction</td>
+<td>incoming or outgoing</td>
+</tr>
+</tbody></table>
+<h3 id='ws-request-5'>WS Request</h3>
+<p><code>webSocket.send(&lt;JSON&gt;&quot;);</code></p>
+<h3 id='message-parameters-5'>message parameters</h3>
+<table><thead>
+<tr>
+<th>key</th>
+<th>value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>command</td>
+<td>getHistory</td>
+<td>mandatory</td>
+</tr>
+<tr>
+<td>messageType</td>
+<td>direct/broadcast</td>
+<td>mandatory</td>
+</tr>
+<tr>
+<td>account</td>
+<td>sha256 hash of Pub key</td>
 <td>mandatory</td>
 </tr>
 </tbody></table>
