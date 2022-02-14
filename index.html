@@ -692,6 +692,22 @@ If TX found <code>&lt;pubkey1&gt;:&lt;pubkey1&gt;:&lt;AMOUNT&gt;:...&lt;PUBKEY&g
 
 <p><code>getTransactionMessageForSign</code> is used for get message from Node (with balance info).
 <code>pushSignedMessageToPending</code> is used for to sign message with Wallet privsate key and push to Node (pending transactions).</p>
+
+<ol>
+<li>When you send coin to someone you need to use <code>getTransactionMessageForSign</code> command. </li>
+<li>Response for <code>getTransactionMessageForSign</code> command will get 2 message (for reciever and for sender).</li>
+<li>Each message need to reconstruct separately and push to pending transaction by <code>pushSignedMessageToPending</code> command.</li>
+</ol>
+<h3 id='message-reconstruction-steps'>Message reconstruction steps</h3>
+<p>Step1. Parse <code>forReciverData</code> and <code>forSenderData</code>
+Step2. Calculate <code>sha256</code> hash sum of <code>message</code> and make TX ID  ( <code>txID=TX$hash256(message)</code> )
+Step3. Construct <code>message</code> by adding TX info.  (<code>message=$txID:$message</code>)
+Step4. Encode public key by <code>base64</code>.  (<code>pubKeyBASE64=base64(key.pub))</code>
+Step5. Sign message with private key (<code>signature=dgstSign(message)</code>)
+Step6. Encode signature by <code>base64</code>. (<code>sign=base64(signature)</code>)
+Step7. Reconstruct <code>message</code> again. <code>message=$message:$pubKeyBASE64:$signature</code></p>
+
+<p>Follow same steps for <code>forReciverData</code> and <code>forSenderData</code> message and push to block in result list object by  <code>pushSignedMessageToPending</code> command</p>
 <h3 id='ws-request-4'>WS Request</h3>
 <p><code>webSocket.send(&lt;JSON&gt;&quot;);</code></p>
 
