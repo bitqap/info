@@ -370,6 +370,23 @@ Send coint consist of 2 steps.
 `getTransactionMessageForSign` is used for get message from Node (with balance info).
 `pushSignedMessageToPending` is used for to sign message with Wallet privsate key and push to Node (pending transactions).
 
+1. When you send coin to someone you need to use `getTransactionMessageForSign` command. 
+2. Response for `getTransactionMessageForSign` command will get 2 message (for reciever and for sender).
+3. Each message need to reconstruct separately and push to pending transaction by `pushSignedMessageToPending` command.
+
+### Message reconstruction steps
+Step1. Parse `forReciverData` and `forSenderData`
+Step2. Calculate `sha256` hash sum of `message` and make TX ID  ( `txID=TX$hash256(message)` )
+Step3. Construct `message` by adding TX info.  (`message=$txID:$message`)
+Step4. Encode public key by `base64`.  (`pubKeyBASE64=base64(key.pub))`
+Step5. Sign message with private key (`signature=dgstSign(message)`)
+Step6. Encode signature by `base64`. (`sign=base64(signature)`)
+Step7. Reconstruct `message` again. `message=$message:$pubKeyBASE64:$signature`
+
+Follow same steps for `forReciverData` and `forSenderData` message and push to block in result list object by  `pushSignedMessageToPending` command
+
+
+
 ### WS Request
 
 ``webSocket.send(<JSON>");``
